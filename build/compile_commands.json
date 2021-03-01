@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/andrew/projects/edge_detection/build",
+  "command": "/usr/bin/g++-7   -I/usr/local/include/opencv4/opencv2 -isystem /usr/local/include/opencv4  -g   -std=gnu++11 -o CMakeFiles/sgm_ed.dir/main.cpp.o -c /home/andrew/projects/edge_detection/main.cpp",
+  "file": "/home/andrew/projects/edge_detection/main.cpp"
+}
+]

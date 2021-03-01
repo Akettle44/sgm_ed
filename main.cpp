@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <iostream>
 #include <stdlib.h>
-#include "VideoCapture.h"
-#include "edge.h"
+#include "VideoCapture.hpp"
+#include "edge.hpp"
 #include <vector>
+#include <videoio.hpp>
+#include <highgui/highgui.hpp>
+#include <imgproc/imgproc.hpp>
 
 using namespace std;
 using namespace cv;

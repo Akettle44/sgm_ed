@@ -28,16 +28,16 @@ float calc_dy(Mat img, int x, int y) {
 }
 
 int calc_sgm(float dx, float dy) {
-	return pow(dx, 2)  + pow(dy, 2);
+	return pow(dx, 2) + pow(dy, 2);
 }
 
 Mat find_edges(Mat img, int x, int y, unsigned char threshold) {
 	for(int y = 0; y < img.cols; y++) {
 		for(int x = 0; x < img.rows; x++) {
-		if(img.at<unsigned char>(x, y) > threshold) {
-			img.at<unsigned char>(x, y) = 255;
+		if(img.at<unsigned char>(y, x) > threshold) {
+			img.at<unsigned char>(y, x) = 255;
 		} else {
-			img.at<unsigned char>(x, y) = 255;
+			img.at<unsigned char>(y, x) = 0;
 		}
 	}
 	return img;
