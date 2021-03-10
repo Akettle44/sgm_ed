@@ -8,7 +8,7 @@ enable_testing()
 include_directories("/usr/local/include/opencv4/opencv2")
 include_directories("/usr/local/include/opencv4")
 
-add_executable(sgm_ed main.cpp)
+add_executable(sgm_ed main.cpp edge.cpp VideoCapture.cpp)
 target_link_libraries( sgm_ed ${OpenCV_LIBS} )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

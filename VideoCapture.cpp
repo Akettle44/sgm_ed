@@ -1,8 +1,8 @@
-#include "VideoCapture.h"
+#include "VideoCapture.hpp"
 
 using namespace cv;
 
-VideoCapture initCapture()
+VideoCapture video::initCapture()
 {
 	//initialize capture properties
 	VideoCapture cap(0, cv::CAP_V4L2);
@@ -21,20 +21,19 @@ VideoCapture initCapture()
 	return cap;
 }
 
-VideoWriter initWriter(VideoCapture cap)
+VideoWriter video::initWriter()
 {
-	VideoWriter video("akoutput.mp4", cv::CAP_FFMPEG, cv::VideoWriter::fourcc('H', '2', '6', '4'), cap.get(5), Size(cap.get(3), cap.get(4)),true);
-	return video;
+	VideoWriter wri("akoutput.mp4", cv::CAP_FFMPEG, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), cap.get(5), Size(cap.get(3), cap.get(4)),true);
+	return wri;
 }
 
-void closeVideo(VideoCapture cap, VideoWriter video)
+void video::closeVideo()
 {
 	cap.release();
-	video.release();
+	wri.release();
 }
 
-Mat getFrame(VideoCapture cap) {
-	Mat frame;
+Mat video::getFrame() {
 	cap >> frame;
 	return frame; 
 }

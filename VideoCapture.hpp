@@ -7,9 +7,35 @@
 
 using namespace cv;
 
-VideoCapture initCapture();
-Mat getFrame(VideoCapture cap);
-VideoWriter initWriter(VideoCapture cap);
-void closeVideo(VideoCapture cap, VideoWriter video);
+class video {
 
+	public:
+		//default constructor
+		video() {
+			cap = initCapture();
+		//	wri = initWriter();
+		}
+
+		//parameterized constructor
+		video(VideoCapture capture, VideoWriter writer) {
+			cap = capture;
+			wri = writer;
+		}
+
+		//destructor
+		~video() {
+			closeVideo();
+		}
+
+		//functions
+		VideoCapture initCapture();
+		Mat getFrame();
+		VideoWriter initWriter();
+		void closeVideo();
+
+	private:
+		VideoCapture cap;
+		VideoWriter wri;
+		Mat frame;
+};
 #endif 
