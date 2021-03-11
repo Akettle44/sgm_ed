@@ -1,7 +1,7 @@
 #include "edge.hpp"
 
 //make sure the image is grayscale
-bool edge_detection::assert_gray() {
+bool edge::assert_gray() {
 	if(img.channels() > 1) {
 		std::cout << "not grayscale";
 		return false;
@@ -10,7 +10,7 @@ bool edge_detection::assert_gray() {
 }
 
 //calculate raw horizontal sobel mask
-float edge_detection::calc_dx(int x, int y) {
+float edge::calc_dx(int x, int y) {
 	float dx = -1*(img.at<unsigned char>(y-1, x-1)) + -2*(img.at<unsigned char>(y, x-1)) + 
 		-1*(img.at<unsigned char>(y+1, x-1)) + 1*(img.at<unsigned char>(y-1, x+1)) +
 		2*(img.at<unsigned char>(y, x+1)) + 1*(img.at<unsigned char>(y+1, x+1));
@@ -19,7 +19,7 @@ float edge_detection::calc_dx(int x, int y) {
 }
 
 //calculate raw vertical sobel mask
-float edge_detection::calc_dy(int x, int y) {
+float edge::calc_dy(int x, int y) {
 	float dy = -1*(img.at<unsigned char>(y+1, x-1)) + -2*(img.at<unsigned char>(y+1, x)) + 
 		-1*(img.at<unsigned char>(y+1, x+1)) + 1*(img.at<unsigned char>(y-1, x-1)) +
 		2*(img.at<unsigned char>(y-1, x)) + 1*(img.at<unsigned char>(y-1, x+1));
@@ -28,48 +28,52 @@ float edge_detection::calc_dy(int x, int y) {
 }
 
 //calculate sgm
-int edge_detection::calc_sgm(int dx, int dy) {
+int edge::calc_sgm(int dx, int dy) {
 	return pow(dx, 2) + pow(dy, 2);
 }
 
 //calculate the normalized sgm
-void edge_detection::update_sgm() {
+void edge::update_sgm() {
+
+	int dx = 0;
+	int dy = 0;
+
 	for(int y = 1; y < img.rows - 1; y++) {
 		for(int x = 1; x < img.cols - 1; x++) {
-			dx[y][x] = calc_dx(x, y);
+			dx = calc_dx(x, y);
 
-			dy[y][x] = calc_dy(x, y);
+			dy = calc_dy(x, y);
 
-			sgm[y][x] = calc_sgm(dx[y][x], dy[y][x]);
+			sgm[y][x] = calc_sgm(dx, dy);
 			if(sgm[y][x] > sgm_max) { sgm_max = sgm[y][x]; }
 		}				
 	}
 	update_sgm_div();
 }
 
-void edge_detection::update_normalized_sgm() {
+void edge::update_normalized_sgm() {
 	for(int y = 1; y < img.rows - 1; y++) {
 		for(int x = 1; x < img.cols - 1; x++) {
-			nsgm[y][x] = sgm[y][x] / sgm_div; 
-			img.at<int>(y, x) = nsgm[y][x];
+			nsgm[y][x] = (unsigned char)(sgm[y][x] / sgm_div); 
+			img.at<unsigned char>(y, x) = nsgm[y][x];
 		}
 	}
 }
 
-void edge_detection::update_sgm_div() {
+void edge::update_sgm_div() {
 	sgm_div = sgm_max / 255;
 }
 
 //create binary image
-Mat edge_detection::find_edges() {
-	for(int y = 0; y < img.cols; y++) {
-		for(int x = 0; x < img.rows; x++) {
-			if(img.at<int>(y, x) > threshold) {
-				ret.at<unsigned char>(y, x) = 255;
+Mat edge::find_edges() {
+	for(int y = 0; y < img.rows; y++) {
+		for(int x = 0; x < img.cols; x++) {
+			if(img.at<unsigned char>(y, x) > threshold) {
+				img.at<unsigned char>(y, x) = 255;
 			} else {
-				ret.at<unsigned char>(y, x) = 0;
+				img.at<unsigned char>(y, x) = 0;
 			}
 		}
 	}
-	return ret;
+	return img;
 }

@@ -1,13 +1,7 @@
-#include <stdio.h>
 #include <iostream>
 #include <stdlib.h>
 #include "VideoCapture.hpp"
 #include "edge.hpp"
-#include <vector>
-#include <videoio.hpp>
-#include <highgui/highgui.hpp>
-#include <imgproc/imgproc.hpp>
-#include <unistd.h>
 
 using namespace std;
 using namespace cv;
@@ -15,18 +9,23 @@ using namespace cv;
 int main() {
 
 	//init video class
-	video vid = video();
+	video vid;
 	Mat frame, ret;
 
-	while(1) {
+	for(;;) {
 
 		frame = vid.getFrame();
-		edge_detection ed = edge_detection(frame);
+		edge ed(frame);
 		ed.update_sgm();
-		//ed.update_normalized_sgm();
-		//ret = ed.find_edges();
-		imshow("Edges", frame);
-		waitKey(10);
+		ed.update_normalized_sgm();
+		ret = ed.find_edges();
+		vid.writeFrame(ret);
+		imshow("Edges", ret);
+
+		if(waitKey(10) == 27) {
+			break;
+		}
 	}
+
 	return 0;
 }

@@ -13,7 +13,7 @@ class video {
 		//default constructor
 		video() {
 			cap = initCapture();
-		//	wri = initWriter();
+			wri = initWriter();
 		}
 
 		//parameterized constructor
@@ -30,6 +30,7 @@ class video {
 		//functions
 		VideoCapture initCapture();
 		Mat getFrame();
+		void writeFrame(Mat frame);
 		VideoWriter initWriter();
 		void closeVideo();
 
