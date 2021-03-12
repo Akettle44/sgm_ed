@@ -1,5 +1,5 @@
 # sgm_ed
-Edge detection using opencv and squared gradient magnitude (SGM). SGM was acquired using x sobel mask and y sobel mask. 
+Edge detection using the squared gradient magnitude (SGM). SGM was acquired using an x sobel mask and a y sobel mask. 
 
 ### Running
 ```
